@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.19)
 project(ChatClient LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Sql)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Sql Network)
 
 qt_standard_project_setup()
+
+include_directories(
+    src
+)
 
 qt_add_executable(ChatClient
     WIN32 MACOSX_BUNDLE
@@ -11,7 +15,15 @@ qt_add_executable(ChatClient
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-    .gitignore
+    src/Client.cpp
+    src/Common.cpp
+    Pages/LoginPage/login.cpp
+    Pages/LoginPage/login.h
+    Pages/LoginPage/login.ui
+    src/Buffer.cpp
+    src/LoginReq.cpp
+    src/Request.cpp
+    src/Response.cpp
 )
 
 target_link_libraries(ChatClient
@@ -19,6 +31,7 @@ target_link_libraries(ChatClient
         Qt::Core
         Qt::Widgets
         Qt6::Sql
+        Qt6::Network
 )
 
 include(GNUInstallDirs)

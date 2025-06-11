@@ -2,3 +2,5 @@ build
 *.autosave
 *.user
 .vscode
+.idea
+cmake-build-debug-mingw-qt
