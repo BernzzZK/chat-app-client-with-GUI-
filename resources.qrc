@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/style">
+        <file>QSS/loginStyle.qss</file>
+        <file>QSS/registerStyle.qss</file>
+    </qresource>
+</RCC>

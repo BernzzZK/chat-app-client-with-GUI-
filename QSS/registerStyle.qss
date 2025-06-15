@@ -1,0 +1,89 @@
+/* 整体窗口背景 */
+Register {
+    background-color: #f5f7fa;
+}
+
+/* 分组框样式 */
+QGroupBox {
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #dcdcdc;
+    margin-top: 15px;
+    padding-top: 12px;
+    background-color: #ffffff;
+    border-radius: 6px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding: 4px 10px;
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                      stop:0 #4a90e2, stop:1 #5cc6eb);
+    color: white;
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+/* 输入框样式 */
+QLineEdit {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ffffff;
+    font-size: 13px;
+    min-height: 30px;
+}
+QLineEdit:focus {
+    border: 1px solid #4a90e2;
+    outline: 0;
+    background-color: #f0f8ff;
+}
+
+/* 按钮通用样式 */
+QPushButton {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    min-width: 80px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* 注册按钮样式 */
+QPushButton#registerBtn {
+    background-color: #4a90e2;
+    color: white;
+}
+QPushButton#registerBtn:hover {
+    background-color: #3b83d1;
+}
+QPushButton#registerBtn:pressed {
+    background-color: #2e6cb0;
+}
+
+/* 取消按钮样式 */
+QPushButton#cancelBtn {
+    background-color: #e0e0e0;
+    color: #555;
+}
+QPushButton#cancelBtn:hover {
+    background-color: #d0d0d0;
+}
+QPushButton#cancelBtn:pressed {
+    background-color: #c0c0c0;
+}
+
+/* 标签样式 */
+QLabel {
+    font-size: 14px;
+    color: #333;
+    min-width: 70px;
+    font-weight: 500;
+}
+
+/* 间距美化 */
+QSpacerItem {
+    width: 20px;
+    height: 10px;
+}

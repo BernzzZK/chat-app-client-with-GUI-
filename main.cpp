@@ -6,12 +6,14 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    Client &client = Client::instance();
+    client.initSettings("settings.ini");
     Login loginPage;
-    QObject::connect(&loginPage, &Login::loginSuccess, [&]() {
+    loginPage.show();
+    QObject::connect(&client, &Client::loginSuccess, [&]() {
         const auto w = new MainWindow();
         w->show();
         loginPage.close();
     });
-    loginPage.show();
     return a.exec();
 }

@@ -9,6 +9,8 @@ include_directories(
     src
 )
 
+qt_add_resources(ChatClient_RESOURCES resources.qrc)
+
 qt_add_executable(ChatClient
     WIN32 MACOSX_BUNDLE
     main.cpp
@@ -17,6 +19,9 @@ qt_add_executable(ChatClient
     mainwindow.ui
     src/Client.cpp
     src/Common.cpp
+    Pages/RegisterPage/register.cpp
+    Pages/RegisterPage/register.h
+    Pages/RegisterPage/register.ui
     Pages/LoginPage/login.cpp
     Pages/LoginPage/login.h
     Pages/LoginPage/login.ui
@@ -24,6 +29,12 @@ qt_add_executable(ChatClient
     src/LoginReq.cpp
     src/Request.cpp
     src/Response.cpp
+    src/RegisterReq.cpp
+    resources.qrc
+    ${ChatClient_RESOURCES}
+        Pages/ForgetPwd/forgetpwd.cpp
+        Pages/ForgetPwd/forgetpwd.h
+        Pages/ForgetPwd/forgetpwd.ui
 )
 
 target_link_libraries(ChatClient

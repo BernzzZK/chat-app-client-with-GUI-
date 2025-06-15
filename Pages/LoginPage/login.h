@@ -5,9 +5,10 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include <QWidget>
+
 #include <QLabel>
-#include <QPushButton>
+#include <QMouseEvent>
+#include "Client.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -24,17 +25,30 @@ public:
 private:
     Ui::Login *ui;
 
+    bool m_dragging;
+    QPoint m_dragPosition;
+
+    Client &client;
+
+    QTimer *timer;
+
 private slots:
     void loginBtn_clicked();
     void registerBtn_clicked();
+    void forgetPwd_clicked();
     void initClientConnection();
     void onConnected();
     void onConnectTimeout();
     void changeHostBtn_clicked();
+    void autoLogin();
 
 signals:
-    void loginSuccess();
-    void registerSuccess();
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
 

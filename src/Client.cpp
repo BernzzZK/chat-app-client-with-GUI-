@@ -7,21 +7,73 @@
 #include <QDebug>
 #include "LoginReq.h"
 #include "Response.h"
+#include "RegisterReq.h"
 
 Client::Client()
     : socket_(new QTcpSocket(this)),
       host_("127.0.0.1"),
       port_(8888),
-      connectTimer_(new QTimer(this))
+      connectTimer_(new QTimer(this)),
+      autoLogin_(false),
+      rememberMe_(false)
 {
+    // 初始化 setter 映射表
+    setters_["host"] = [this](const QString &val) {
+        host_ = QHostAddress(val);
+    };
+
+    setters_["port"] = [this](const QString &val) {
+        bool ok;
+        quint16 port = val.toUInt(&ok);
+        if (ok) {
+            port_ = port;
+            qDebug() << "设置 port 为：" << port_;
+        } else {
+            qWarning() << "端口号无效：" << val;
+        }
+    };
+
+    setters_["autoLogin"] = [this](const QString &val) {
+        autoLogin_ = (val.toLower() == "true" || val == "1");
+        qDebug() << "autoLogin" << autoLogin_;
+    };
+
+    setters_["rememberMe"] = [this](const QString &val) {
+        rememberMe_ = (val.toLower() == "true" || val == "1");
+        qDebug() << "rememberMe" << rememberMe_;
+    };
+
+    setters_["account"] = [this](const QString &val) {
+        account_ = val;
+    };
+
+    setters_["password"] = [this](const QString &val) {
+        password_ = val;
+    };
+
     connect(socket_, &QTcpSocket::connected, this, &Client::onConnected);
     connect(socket_, &QTcpSocket::readyRead, this, &Client::onReadyRead);
     connectTimer_->setSingleShot(true);
-    connect(connectTimer_, &QTimer::timeout, this, &Client::onConnected);
+    connect(connectTimer_, &QTimer::timeout, this, &Client::onConnectTimedOut);
+    connect(this, &Client::loginSuccess, this, [this]() {
+        logined_ = true;
+    });
 }
 
 Client::~Client() {
     delete socket_;
+    saveInitSettings();
+}
+
+void Client::saveInitSettings() {
+    common::saveConfigToFile("settings.ini", {
+        {"host", {"host", host_.toString()}},
+        {"port", {"port", QString::number(port_)}},
+        {"autoLogin", {"autoLogin", autoLogin_ ? "true" : "false"}},
+        {"rememberMe", {"rememberMe", rememberMe_ ? "true" : "false"}},
+        {"account", {"account", account_}},
+        {"password", {"password", password_}}
+    });
 }
 
 QString Client::getHost() const {
@@ -41,16 +93,21 @@ void Client::setServer(const QString &ip, const quint16 &port) {
     port_ = port;
 }
 
-void Client::login(const QString &account, const QString &password) const {
-    LoginReq req(account.toStdString(), password.toStdString());
+void Client::login(const QString &account, const std::string &password) const {
+    LoginReq req(account.toStdString(), password);
     if (socket_->state()!= QAbstractSocket::ConnectedState) {
         return;
     }
     send(req.toString());
 }
 
-bool Client::registerAccount(const QString &account, const QString &password) const {
-    return false;
+void Client::registerAccount(const QString &account, const std::string &password) const {
+    RegisterReq req(account.toStdString(), password);
+    qDebug() << req.toString();
+    if (socket_->state()!= QAbstractSocket::ConnectedState) {
+        return;
+    }
+    send(req.toString());
 }
 
 void Client::onConnected() {
@@ -59,7 +116,7 @@ void Client::onConnected() {
 }
 
 void Client::onConnectTimedOut() {
-    emit connected();
+    emit connectTimedOut();
 }
 
 void Client::onReadyRead() {
@@ -95,9 +152,30 @@ void Client::handleResponse(const QString &message) {
             }
             break;
         }
+        case common::registered: {
+            if (resp.isSuccess()) {
+                emit registerSuccess();
+            } else {
+                emit registerFailed(QString::fromStdString(resp.getFailReason()));
+            }
+            break;
+        }
         default:
             qDebug() << "未知响应类型";
             break;
     }
 }
+
+void Client::initSettings(QString fileName) {
+    QMap<QString, QString> settings;
+    settings = common::readSettingsFile(fileName);
+    if (!settings.isEmpty()) {
+        for (const auto &key : settings.keys()) {
+            if (setters_.contains(key)) {
+                setters_[key](settings[key]);
+            }
+        }
+    }
+}
+
 

@@ -1,0 +1,130 @@
+/* 主窗口背景 - 使用更柔和的渐变 */
+Login {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                          stop:0 #AED9E0, /* 浅蓝 */
+                                          stop:1 #4567b7); /* 深蓝 */
+    border-radius: 16px;
+    padding: 1px; /* 强制触发绘制边界 */
+}
+
+/* 自定义标题栏 */
+#titleLabel {
+    background-color: rgba(255, 255, 255, 40);
+    min-height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    padding-left: 10px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+/* 按钮通用样式 */
+QPushButton#minimizeBtn,
+QPushButton#closeBtn {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    font-family: "Segoe UI", sans-serif;
+    border-radius: 6px;
+    border: none;
+    background-color: transparent;
+    color: white;
+    margin: 0px 4px;
+    padding: 0px;
+    font-weight: bold;
+}
+
+/* 悬停时显示背景色，提升可视性 */
+QPushButton#minimizeBtn:hover {
+    background-color: rgba(255, 255, 255, 40);
+    color: white;
+}
+
+QPushButton#closeBtn:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* 输入框通用样式 */
+QLineEdit {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ffffffee;
+    font-size: 14px;
+    min-height: 32px;
+}
+
+QLineEdit:focus {
+    border-color: #0078d7;
+    outline: 0px;
+    background-color: #f0f8ff;
+}
+
+/* 登录按钮样式 */
+QPushButton#loginBtn {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #0096c7, stop:1 #0078d7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    min-width: 90px;
+    max-height: 36px;
+    white-space: nowrap;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+QPushButton#loginBtn:hover {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #007bb5, stop:1 #005fa3);
+}
+
+QPushButton#loginBtn:pressed {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #005a8b, stop:1 #00466f);
+}
+
+/* 注册按钮 */
+QPushButton#registerBtn {
+    background-color: rgba(255, 255, 255, 80);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    min-width: 90px;
+    max-height: 36px;
+    white-space: nowrap;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 100);
+    transition: background-color 0.3s ease;
+}
+
+QPushButton#registerBtn:hover {
+    background-color: rgba(255, 255, 255, 120);
+    color: #222;
+}
+
+QPushButton#registerBtn:pressed {
+    background-color: rgba(255, 255, 255, 160);
+}
+
+/* 忘记密码标签 */
+#forgetPwd {
+    color: rgba(255, 255, 255, 200);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+#forgetPwd:hover {
+    color: white;
+}
+
+/* 提示文本 */
+#labHost {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 180);
+    margin-top: 2px;
+}

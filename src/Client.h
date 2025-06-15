@@ -15,7 +15,6 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <QObject>
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QHostAddress>
 #include <QTimer>
@@ -30,13 +29,26 @@ public:
     Client();
     ~Client() override;
 
-    void login(const QString &account, const QString &password) const;
-    bool registerAccount(const QString &account, const QString &password) const;
+    void login(const QString &account, const std::string &password) const;
+    void registerAccount(const QString &account, const std::string &password) const;
 
     static Client &instance() {
         static Client client;
         return client;
     }
+
+    void setAutoLogin(const bool autoLogin) { autoLogin_ = autoLogin; }
+    void setRememberMe(const bool setRememberMe) { rememberMe_ = setRememberMe;}
+    bool getAutoLogin() const {return autoLogin_;}
+    bool getRememberMe() const {return rememberMe_;}
+    bool isLogin() const {return logined_;}
+
+    void setAccount(const QString &account) { account_ = account; }
+    void setPassword(const QString &password) { password_ = password; }
+    QString getAccount() const { return account_; }
+    QString getPassword() const { return password_; }
+
+    void initSettings(QString fileName);
 
     QString getHost() const;
     QString getIP() const { return host_.toString(); }
@@ -45,6 +57,7 @@ public:
     void setPort(const quint16 &port) { port_ = port; }
     void setServer(const QString &ip, const quint16 &port);
     void connectToServer();
+    bool isConnected() const { return socket_->state() == QAbstractSocket::ConnectedState; };
 
 signals:
     void connected();
@@ -53,6 +66,9 @@ signals:
 
     void loginSuccess();
     void loginFailed(const QString& reason);
+
+    void registerSuccess();
+    void registerFailed(const QString& reason);
 
 private slots:
     void onConnected();
@@ -65,10 +81,22 @@ private:
     quint16 port_;
     QTimer *connectTimer_;
 
+    // default false
+    bool autoLogin_;
+    bool rememberMe_;
+
+    QString account_;
+    QString password_;
+
     Buffer buffer_;
+
+    bool logined_;
+
+    QMap<QString, std::function<void(const QString&)>> setters_; // 字符串映射至函数表
 
     void send(const std::string &msg) const ;
     void handleResponse(const QString &message);
+    void saveInitSettings();
 };
 
 #endif //CLIENT_H
