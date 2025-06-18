@@ -20,7 +20,9 @@ namespace common {
         logout,
         sendMsg,
         addFriend,
-        friendList
+        friendList,
+        changeUserName,
+        heartbeat
     };
 
     // 定义一个结构体来表示配置项
@@ -44,6 +46,8 @@ namespace common {
 
     const std::vector illegalAlphabet{' ', '@', '#', '$', '{', '}', '[', ']', ';', ':', '\'', '\"', '\\', '|', '?', '*', '%', ','};
     const std::unordered_set illegalAlphabetSet(illegalAlphabet.begin(), illegalAlphabet.end());
+
+    reqType getType(const QString & chars);
 }
 
 #endif //COMMON_H

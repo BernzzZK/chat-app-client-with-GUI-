@@ -302,3 +302,8 @@ void common::saveConfigToFile(const QString &filePath, const QMap<QString, Confi
 
     file.close();
 }
+
+common::reqType common::getType(const QString &message) {
+    auto msg = message.toStdString();
+    return static_cast<reqType>(msg[msg.size()]);
+}

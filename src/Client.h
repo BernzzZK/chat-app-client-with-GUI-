@@ -19,6 +19,7 @@
 #include <QtNetwork/QHostAddress>
 #include <QTimer>
 #include <QString>
+#include <thread>
 #include "Buffer.h"
 
 class Response;
@@ -70,16 +71,25 @@ signals:
     void registerSuccess();
     void registerFailed(const QString& reason);
 
+    void recieve_heartbeat();
+
 private slots:
     void onConnected();
+    void onDisconnected();
+    void sendHeartbeat();
     void onConnectTimedOut();
     void onReadyRead();
+    void onHeartbeatResponseTimeout() const;
 
 private:
     QTcpSocket *socket_;
     QHostAddress host_;
     quint16 port_;
     QTimer *connectTimer_;
+    QTimer *reconnectTimer_;
+    QTimer* heartbeatTimer_;
+    QTimer* heartbeatResponseTimer_;
+    bool receivedHeartbeatResponse_;
 
     // default false
     bool autoLogin_;

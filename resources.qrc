@@ -2,5 +2,12 @@
     <qresource prefix="/style">
         <file>QSS/loginStyle.qss</file>
         <file>QSS/registerStyle.qss</file>
+        <file>QSS/chatStyle.qss</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>resources/chat.png</file>
+        <file>resources/me.png</file>
+        <file>resources/settings.png</file>
+        <file>resources/contacts.png</file>
     </qresource>
 </RCC>

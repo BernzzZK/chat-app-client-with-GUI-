@@ -41,6 +41,7 @@ private slots:
     void onConnectTimeout();
     void changeHostBtn_clicked();
     void autoLogin();
+    void loginSusses();
 
 signals:
 

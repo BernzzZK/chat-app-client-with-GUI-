@@ -11,6 +11,7 @@
 class Response {
 public:
     Response(const std::string &resp);
+    Response() = default;
     ~Response() = default;
 
     void toResponse(const std::string &);

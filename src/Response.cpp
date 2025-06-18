@@ -20,8 +20,7 @@ void Response::makeEmpty() {
 
 void Response::toResponse(const std::string &resp)
 {
-    if (resp.empty())
-    {
+    if (resp.empty()) {
         qDebug() << "Invalid response format";
         return;
     }

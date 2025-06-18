@@ -14,6 +14,8 @@
 #include <QFile>
 #include <QGraphicsDropShadowEffect>
 
+#include "../MainPage/chatmain.h"
+
 Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login), client(Client::instance()) {
     ui->setupUi(this);
 
@@ -59,6 +61,7 @@ Login::Login(QWidget *parent) : QWidget(parent), ui(new Ui::Login), client(Clien
 
     connect(&client, &Client::loginSuccess, this, [this]() {
         QMessageBox::information(this, "提示", "登录成功！");
+        loginSusses();
     });
     connect(&client, &Client::loginFailed, this, [this](const QString &reason) {
         QMessageBox::critical(this, "错误", "登录失败：" + reason);
@@ -245,3 +248,10 @@ void Login::forgetPwd_clicked() {
 void Login::autoLogin() {
     loginBtn_clicked();
 }
+
+void Login::loginSusses() {
+    this->close();
+    auto chatWindow = new ChatMain();
+    chatWindow->show();
+}
+

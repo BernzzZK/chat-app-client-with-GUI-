@@ -1,0 +1,136 @@
+/* 主窗口样式 */
+QWidget#WeChatWindow {
+    background-color: #f5f5f5;
+}
+
+/* 标题栏样式（固定在顶部） */
+QHBoxLayout[name="titleBarLayout"] {
+    background-color: #f0f0f0;
+    height: 32px;
+    padding: 0 10px;
+}
+
+/* 标题样式 */
+QLabel#titleLabel {
+    font-size: 16px;
+    font-weight: bold;
+    color: black; /* 黑色文字 */
+}
+
+/* 最小化按钮（缩小尺寸） */
+QPushButton#minimizeButton {
+    border: none;
+    background-color: transparent;
+    color: black; /* 黑色文字 */
+    font-size: 14px;
+    padding: 5px;
+}
+QPushButton#minimizeButton:hover {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    color: black; /* 保持黑色 */
+}
+
+/* 关闭按钮（缩小尺寸） */
+QPushButton#closeButton {
+    border: none;
+    background-color: transparent;
+    color: black; /* 黑色文字 */
+    font-size: 14px;
+    padding: 5px;
+}
+QPushButton#closeButton:hover {
+    background-color: #f00;
+    color: black; /* 保持黑色 */
+    border-radius: 5px;
+}
+QPushButton#closeButton:pressed {
+    background-color: #c00;
+    color: black; /* 保持黑色 */
+}
+
+/* 左侧按钮样式 */
+QPushButton[name="contactsButton"],
+QPushButton[name="meButton"],
+QPushButton[name="settingButton"] {
+    border: none;
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 8px;
+    color: black; /* 黑色文字 */
+}
+QPushButton[name="contactsButton"]:hover,
+QPushButton[name="meButton"]:hover,
+QPushButton[name="settingButton"]:hover {
+    background-color: #e0e0e0;
+    color: black; /* 保持黑色 */
+}
+
+/* 搜索框样式 */
+QLineEdit#searchBar {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: black; /* 黑色文字 */
+}
+
+/* 聊天消息容器 */
+QListWidget#chatMessageList {
+    background-color: #f0f8ff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* 默认消息项样式 */
+QListWidget::item {
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 12px;
+    color: black; /* 黑色文字 */
+}
+
+/* 我的消息（绿色气泡） */
+QListWidget::item[myMessage="true"] {
+    background-color: #33FF33;
+    color: black; /* 黑色文字 */
+}
+
+/* 对方消息（灰色气泡） */
+QListWidget::item[myMessage="false"] {
+    background-color: #CCCCCC;
+    color: black; /* 黑色文字 */
+}
+
+/* 输入框和发送按钮样式 */
+QLineEdit#messageInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: black; /* 黑色文字 */
+}
+QPushButton#sendButton {
+    background-color: #07c160;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+QPushButton#sendButton:hover {
+    background-color: #05a050;
+}
+
+/* QListWidget 项样式 */
+QListWidget::item {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    background-color: #ffffff;
+    color: black; /* 黑色文字 */
+}
+
+QListWidget::item:hover {
+    background-color: #e0f7fa;
+    color: black; /* 保持黑色 */
+}

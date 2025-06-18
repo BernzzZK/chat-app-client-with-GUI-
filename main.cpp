@@ -10,10 +10,5 @@ int main(int argc, char *argv[])
     client.initSettings("settings.ini");
     Login loginPage;
     loginPage.show();
-    QObject::connect(&client, &Client::loginSuccess, [&]() {
-        const auto w = new MainWindow();
-        w->show();
-        loginPage.close();
-    });
     return a.exec();
 }
