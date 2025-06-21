@@ -5,7 +5,6 @@
 #include "Client.h"
 #include "Common.h"
 #include <QDebug>
-
 #include "HeartBeatReq.h"
 #include "LoginReq.h"
 #include "Response.h"
@@ -54,13 +53,13 @@ Client::Client()
         password_ = val;
     };
 
-    connectTimer_->setInterval(3000);
+    connectTimer_->setInterval(3 * common::second);
     connectTimer_->setSingleShot(true);
 
-    heartbeatTimer_->setInterval(10000);
+    heartbeatTimer_->setInterval(30 * common::second); // 30秒发送一次心跳
 
     heartbeatResponseTimer_ = new QTimer(this);
-    heartbeatResponseTimer_->setInterval(5000); // 等待心跳响应最多5秒
+    heartbeatResponseTimer_->setInterval(5 * common::second); // 等待心跳响应最多5秒
     heartbeatResponseTimer_->setSingleShot(true);
 
     connect(heartbeatResponseTimer_, &QTimer::timeout, this, &Client::onHeartbeatResponseTimeout);
@@ -68,7 +67,7 @@ Client::Client()
     receivedHeartbeatResponse_ = true; // 初始设为 true，避免第一次误判
 
     reconnectTimer_ = new QTimer(this);
-    reconnectTimer_->setInterval(3000); // 每3秒尝试连接一次
+    reconnectTimer_->setInterval(3 * common::second); // 每3秒尝试连接一次
     reconnectTimer_->setSingleShot(false);
 
     connect(reconnectTimer_, &QTimer::timeout, this, &Client::connectToServer);
@@ -80,6 +79,9 @@ Client::Client()
     connect(connectTimer_, &QTimer::timeout, this, &Client::onConnectTimedOut);
     connect(this, &Client::loginSuccess, this, [this]() {
         logined_ = true;
+        // 登录成功后，停止重连定时器
+        reconnectTimer_->stop();
+        // 读取用户信息、设置等
     });
 }
 
@@ -226,14 +228,13 @@ void Client::send(const std::string &msg) const {
 void Client::handleResponse(const QString &message) {
     common::reqType type = common::nullTyp;
     Response resp;
-    const std::string msg = message.toStdString();
-    if (msg[0] == '@') {
-        resp = Response(msg);
+    if (message.startsWith("@")) {
+        resp = Response(message.toStdString());
         type = resp.getType();
-    } else if (msg[0] == '#') {
+    } else if (message.startsWith("#")) {
         type = common::getType(message);
     }
-    qDebug() << message;
+    qDebug() << "type: " << type << " msg: " << message;
     switch (type) {
         case common::login: {
             if (resp.isSuccess()) {
@@ -273,9 +274,8 @@ void Client::handleResponse(const QString &message) {
     }
 }
 
-void Client::initSettings(QString fileName) {
-    QMap<QString, QString> settings;
-    settings = common::readSettingsFile(fileName);
+void Client::initSettings(const QString &fileName) {
+    QMap<QString, QString> settings = common::readSettingsFile(fileName);
     if (!settings.isEmpty()) {
         for (const auto &key : settings.keys()) {
             if (setters_.contains(key)) {

@@ -56,8 +56,12 @@ qt_add_executable(ChatClient
         ${ChatClient_RESOURCES}
         src/HeartBeatReq.cpp
         src/HeartBeatReq.h
-        Pages/MainPage/ChatDelegate.h
-        Pages/MainPage/ChatDelegate.cpp
+        src/ChatDelegate.h
+        src/ChatDelegate.cpp
+        src/SendMsgReq.cpp
+        src/SendMsgReq.h
+        src/LoadUserInfo.cpp
+        src/LoadUserInfo.h
 )
 
 target_link_libraries(ChatClient

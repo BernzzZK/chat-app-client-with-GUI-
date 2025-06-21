@@ -49,7 +49,7 @@ public:
     QString getAccount() const { return account_; }
     QString getPassword() const { return password_; }
 
-    void initSettings(QString fileName);
+    void initSettings(const QString &fileName);
 
     QString getHost() const;
     QString getIP() const { return host_.toString(); }

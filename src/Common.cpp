@@ -4,7 +4,8 @@
 
 #include "Common.h"
 #include <algorithm>
-#include <QCryptographicHash>
+#include <QSqlQuery>
+#include <QSqlError>
 #include <QFile>
 #include <QMessageBox>
 
@@ -248,7 +249,7 @@ QMap<QString, QString> common::readSettingsFile(const QString &filePath) {
         return settings;
     }
     QTextStream in(&file);
-    QString comment;  // 存储当前注释（可选）
+    QString comment;  // 存储当前注释
     int lineNum = 0;
     while (!in.atEnd()) {
         QString line = in.readLine().trimmed();
@@ -304,6 +305,5 @@ void common::saveConfigToFile(const QString &filePath, const QMap<QString, Confi
 }
 
 common::reqType common::getType(const QString &message) {
-    auto msg = message.toStdString();
-    return static_cast<reqType>(msg[msg.size()]);
+    return static_cast<reqType>(message[message.length() - 1].digitValue());
 }

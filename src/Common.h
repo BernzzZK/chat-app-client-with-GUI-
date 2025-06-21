@@ -13,6 +13,12 @@
 class QWidget;
 
 namespace common {
+    const int ms = 1;
+    const int second = 1000 * ms;
+    const int minute = 60 * second;
+    const int hour = 60 * minute;
+    const int day = 24 * hour;
+
     enum reqType{
         nullTyp,
         registered,
@@ -31,6 +37,20 @@ namespace common {
         QString value;
     };
 
+    // 定义一个结构体来表示好友项
+    struct FriendEntry {
+        QString account;
+        QString username;
+        QString createTime;
+    };
+
+    // 定义一个结构体来表示信息项
+    struct MessageEntry {
+        QString content;
+        QString senderUsername;
+        QString createTime;
+    };
+
     std::vector<std::string> splitString(const std::string &input);
     bool containsInvalidChars(const std::string& input);
     std::string parsing(std::string);
@@ -47,7 +67,7 @@ namespace common {
     const std::vector illegalAlphabet{' ', '@', '#', '$', '{', '}', '[', ']', ';', ':', '\'', '\"', '\\', '|', '?', '*', '%', ','};
     const std::unordered_set illegalAlphabetSet(illegalAlphabet.begin(), illegalAlphabet.end());
 
-    reqType getType(const QString & chars);
+    reqType getType(const QString & message);
 }
 
 #endif //COMMON_H

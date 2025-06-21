@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QMouseEvent>
 
-#include "ChatDelegate.h"
+#include "../../src/ChatDelegate.h"
 
 ChatMain::ChatMain(QWidget *parent)
     : QWidget(parent)
